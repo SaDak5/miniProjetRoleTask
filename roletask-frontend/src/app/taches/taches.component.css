@@ -1,0 +1,131 @@
+:root {
+  --primary-blue: #3b82f6;
+  --meeting-purple: #8b5cf6;
+  --event-orange: #f59e0b;
+  --bg-gray: #f8fafc;
+  --text-dark: #1e293b;
+}
+
+body {
+  background-color: var(--bg-gray);
+  color: var(--text-dark);
+}
+
+.max-w-card { width: 450px; }
+
+/* Bouton Publier style LinkedIn */
+.btn-create-modern {
+  width: 450px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 15px;
+  border-radius: 12px;
+  color: #64748b;
+  text-align: left;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-create-modern:hover {
+  background: #f1f5f9;
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+/* Card Social Design */
+.task-card {
+  width: 450px;
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
+}
+
+.card-content {
+  padding: 24px;
+  width: 100%;
+}
+
+/* Indicateur latéral selon le type */
+.type-indicator {
+  width: 6px;
+  background: #cbd5e1;
+}
+
+/* Couleurs par type (Basé sur le texte du badge) */
+.task-card.tâche .type-indicator, .task-card.tâche .badge-type-pill { background: #dbeafe; color: var(--primary-blue); }
+.task-card.réunion .type-indicator, .task-card.réunion .badge-type-pill { background: #ede9fe; color: var(--meeting-purple); }
+.task-card.événement .type-indicator, .task-card.événement .badge-type-pill { background: #fef3c7; color: var(--event-orange); }
+
+/* Avatar */
+.avatar-box {
+  width: 48px;
+  height: 48px;
+  background: #1e293b;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Badge Type */
+.badge-type-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 30px;
+  text-transform: uppercase;
+}
+
+/* Body Styling */
+.content-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.label {
+  display: block;
+  font-size: 10px;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+/* Actions minimalistes */
+.btn-minimal {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.btn-minimal.edit { color: #64748b; }
+.btn-minimal.edit:hover { background: #f1f5f9; color: var(--primary-blue); }
+
+.btn-minimal.delete { color: #ef4444; }
+.btn-minimal.delete:hover { background: #fef2f2; }
+
+/* Petit point de statut */
+.status-indicator {
+  font-size: 13px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+}

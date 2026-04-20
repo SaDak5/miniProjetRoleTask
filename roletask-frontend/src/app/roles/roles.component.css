@@ -1,0 +1,65 @@
+body {
+  background-color: #f4f7f9;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.header-section h2 {
+  font-size: 1.75rem;
+}
+
+/* Table */
+.table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #6c757d;
+  padding: 16px;
+}
+
+.role-row {
+  border-bottom: 1px solid #f0f2f5;
+  transition: background 0.2s;
+}
+
+.role-row:hover {
+  background-color: #f8fbff;
+}
+
+/* Avatar */
+.avatar-circle {
+  width: 35px;
+  height: 35px;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Boutons actions */
+.btn-action {
+  border: none;
+  background: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.btn-action.edit:hover {
+  background-color: #fff4e5;
+}
+
+.btn-action.delete:hover {
+  background-color: #ffe5e5;
+}
+
+/* Bouton principal */
+.btn-primary {
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+}

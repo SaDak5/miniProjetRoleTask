@@ -1,0 +1,13 @@
+/* tsconfig.spec.json – corrigé */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "rootDir": ".",
+    "types": ["vitest/globals"]   // ou ["jasmine"] selon votre framework de test
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts"
+  ]
+}

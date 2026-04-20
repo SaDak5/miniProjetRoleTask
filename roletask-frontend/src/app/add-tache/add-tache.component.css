@@ -1,0 +1,114 @@
+/* Conteneur principal */
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+}
+
+/* Titre */
+h2 {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+/* Card */
+.card {
+  border: none;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Labels */
+.form-label {
+  font-weight: 500;
+  color: #34495e;
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #dcdde1;
+  transition: all 0.2s ease;
+}
+
+/* Focus inputs */
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 0.15rem rgba(74, 144, 226, 0.25);
+}
+
+/* Alertes */
+.alert {
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* Info utilisateur */
+.alert-info {
+  background-color: #eef6ff;
+  border: 1px solid #d6e9ff;
+  color: #2c3e50;
+}
+
+/* Boutons */
+button.btn {
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Bouton ajouter */
+.btn-success {
+  background-color: #3271cf;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #12448f;
+}
+
+/* Bouton annuler */
+.btn-secondary {
+  background-color: #bdc3c7;
+  border: none;
+  color: #2c3e50;
+}
+
+.btn-secondary:hover {
+  background-color: #95a5a6;
+}
+
+/* Spinner alignement */
+.spinner-border {
+  vertical-align: middle;
+}
+
+/* Espacement entre boutons */
+.d-flex {
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .container {
+    margin: 20px;
+  }
+
+  .card {
+    padding: 20px !important;
+  }
+
+  .d-flex {
+    flex-direction: column;
+  }
+
+  .d-flex button {
+    width: 100%;
+  }
+}

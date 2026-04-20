@@ -1,0 +1,137 @@
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #b2c8e1, #2a5298);
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  width: 380px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Avatar */
+.avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #2a5298;
+  padding: 5px;
+  background: #fff;
+}
+
+/* Title */
+.title {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Form */
+.form-group {
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 4px;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #2a5298;
+  outline: none;
+  box-shadow: 0 0 5px rgba(42,82,152,0.4);
+}
+
+/* Row (nom + prénom) */
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background: #2a5298;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1e3c72;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Info role */
+.info-role {
+  margin: 10px 0;
+  padding: 8px;
+  background: #e9f3ff;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #2a5298;
+}
+
+/* Register link */
+.register {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.register a {
+  color: #2a5298;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
+
+/* Loader */
+.loader {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+  margin-right: 5px;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}

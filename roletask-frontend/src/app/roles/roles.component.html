@@ -1,0 +1,129 @@
+<div class="main-content p-4">
+  <div class="container-fluid">
+
+    <!-- ✅ Message si accès non autorisé -->
+    <div *ngIf="!authService.hasPermission('ROLE_READ')" class="alert alert-danger text-center">
+      <h4>⛔ Accès non autorisé</h4>
+      <p>Vous n'avez pas les droits pour consulter les rôles.</p>
+      <a routerLink="/taches" class="btn btn-primary">Retour à l'accueil</a>
+    </div>
+
+    <!-- ✅ Afficher le tableau seulement si permission ROLE_READ -->
+    <ng-container *ngIf="authService.hasPermission('ROLE_READ')">
+      
+      <!-- HEADER -->
+      <div class="header-section mb-4 d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="fw-bold text-dark">Gestion des rôles</h2>
+          <p class="text-muted mb-0">Gérer les rôles et leurs permissions associées.</p>
+        </div>
+
+        <!-- ✅ Bouton Ajouter : visible seulement si permission ROLE_CREATE -->
+        <a *ngIf="authService.hasPermission('ROLE_CREATE')"
+           routerLink="/add-role"
+           class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
+          + Ajouter un rôle
+        </a>
+      </div>
+
+      <!-- TABLE -->
+      <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="table-responsive">
+
+          <table class="table mb-0 align-middle">
+            <thead class="bg-light">
+              <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Permissions</th>
+                <!-- ✅ Colonne Actions : visible seulement si UPDATE ou DELETE -->
+                <th class="text-center" *ngIf="authService.hasPermission('ROLE_UPDATE') || authService.hasPermission('ROLE_DELETE')">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let r of roles" class="role-row">
+
+                <!-- NOM + AVATAR -->
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="avatar-circle me-3">
+                      {{ r.nom?.charAt(0) }}
+                    </div>
+                    <span class="fw-semibold">{{ r.nom }}</span>
+                  </div>
+                </td>
+
+                <!-- DESCRIPTION -->
+                <td class="text-secondary">
+                  {{ r.description || '-' }}
+                </td>
+
+                <!-- PERMISSIONS -->
+                <td>
+                  <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown">
+                      {{ r.permissions?.length || 0 }} permissions
+                    </button>
+
+                    <ul class="dropdown-menu">
+                      <li *ngFor="let p of r.permissions">
+                        <span class="dropdown-item">{{ p.nom }}</span>
+                      </li>
+
+                      <li *ngIf="!r.permissions || r.permissions.length === 0">
+                        <span class="dropdown-item text-muted">
+                          Aucune permission
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+
+                <!-- ✅ ACTIONS : visibles seulement si UPDATE ou DELETE -->
+                <td class="text-center" *ngIf="authService.hasPermission('ROLE_UPDATE') || authService.hasPermission('ROLE_DELETE')">
+                  <!-- ✅ Bouton Modifier : visible seulement si ROLE_UPDATE -->
+                  <button *ngIf="authService.hasPermission('ROLE_UPDATE')" 
+                          class="btn-action edit me-2"
+                          [routerLink]="['/update-role', r.id]">
+                    ✏️
+                  </button>
+
+                  <!-- ✅ Bouton Supprimer : visible seulement si ROLE_DELETE -->
+                  <button *ngIf="authService.hasPermission('ROLE_DELETE')" 
+                          class="btn-action delete"
+                          (click)="supprimerRole(r)">
+                    🗑️
+                  </button>
+                </td>
+                <!-- FIN du td - PAS de td supplémentaire ! -->
+
+              </tr>
+
+              <!-- SI VIDE -->
+              <tr *ngIf="roles.length === 0">
+                <td colspan="4" class="text-center text-muted py-4">
+                  Aucun rôle trouvé.
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="card-footer bg-white text-end">
+          <small class="text-muted">
+            {{ roles.length }} rôles au total
+          </small>
+        </div>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+</div>

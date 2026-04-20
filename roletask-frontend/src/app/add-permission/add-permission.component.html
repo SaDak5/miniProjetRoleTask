@@ -1,0 +1,19 @@
+<div class="container mt-4">
+  <h2>Ajouter une permission</h2>
+
+  <div *ngIf="erreur" class="alert alert-danger">{{ erreur }}</div>
+  <div *ngIf="succes" class="alert alert-success">{{ succes }}</div>
+
+  <div class="mb-3">
+    <label class="form-label">Nom de la permission *</label>
+    <input type="text" class="form-control" [(ngModel)]="permission.nom" placeholder="Ex: USER_CREATE" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <input type="text" class="form-control" [(ngModel)]="permission.description" placeholder="Description de la permission" />
+  </div>
+
+  <button class="btn btn-primary me-2" (click)="sauvegarder()">Enregistrer</button>
+  <button class="btn btn-secondary" (click)="annuler()">Annuler</button>
+</div>

@@ -1,0 +1,116 @@
+<div class="container-fluid mt-5 px-lg-5">
+  <div class="row">
+    
+    <div class="col-lg-8 d-flex flex-column align-items-center">
+      <div class="header-content text-center mb-5">
+        <h2 class="title display-6 fw-bold">Flux de l'Équipe</h2>
+        <p class="text-muted">Taches, Réunion, Inventaire et événements à venir</p>
+      </div>
+
+      <!-- Bouton Ajouter : visible seulement si permission TACHE_CREATE -->
+      <button *ngIf="canCreateTache()" 
+              routerLink="/add-tache" 
+              class="btn btn-create-modern shadow-sm mb-5">
+        <span class="icon-plus">+</span> Publier une mise à jour
+      </button>
+
+      <!-- Message d'erreur -->
+      <div *ngIf="errorMessage" class="alert alert-danger text-center mb-3">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Message si accès non autorisé -->
+      <div *ngIf="!authService.hasPermission('TACHE_READ')" class="alert alert-warning text-center">
+        <h4>⛔ Accès non autorisé</h4>
+        <p>Vous n'avez pas les droits pour consulter les tâches.</p>
+        <a routerLink="/dashboard" class="btn btn-primary">Retour à l'accueil</a>
+      </div>
+
+      <!-- Afficher les tâches seulement si droit de lecture -->
+      <ng-container *ngIf="authService.hasPermission('TACHE_READ')">
+        
+        <!-- ✅ Affichage des tâches avec gestion dynamique des types -->
+        <div class="task-card upcoming" *ngFor="let t of upcomingTaches" 
+             [ngClass]="getTypeClass(t.typeTache)">
+          <div class="type-indicator"></div>
+          <div class="card-content">
+            <div class="task-header d-flex align-items-start justify-content-between">
+              <div class="d-flex align-items-center gap-3">
+                <div class="avatar-box shadow-sm">{{ t.utilisateur?.nom?.charAt(0) || 'U' }}</div>
+                <div class="user-meta">
+                  <h6 class="mb-0 fw-bold text-dark">{{ t.utilisateur?.nom || 'Admin' }}</h6>
+                  <small class="text-primary fw-bold">{{ t.dateTache | date:'EEEE d MMMM, y' }}</small>
+                </div>
+              </div>
+              <!-- ✅ Affichage du type (même personnalisé) -->
+              <span class="badge-type-pill" [ngClass]="getTypeClass(t.typeTache)">
+                {{ t.typeTache }}
+              </span>
+            </div>
+
+            <div class="task-body my-4">
+              <h3 class="content-title-large">{{ t.nomDuTache }}</h3>
+              <div class="info-row mt-2">
+                <span class="label text-uppercase">Durée prévue</span>
+                <span class="value text-dark fw-semibold">⏱ {{ t.periodeTache }}h</span>
+              </div>
+            </div>
+
+            <div class="task-footer pt-3 border-top d-flex justify-content-between align-items-center">
+              <div class="status-indicator"><span class="dot"></span> Prévu</div>
+              <!-- Actions : visibles seulement si UPDATE ou DELETE -->
+              <div class="action-group" *ngIf="canEditTache() || canDeleteTache()">
+                <button *ngIf="canEditTache()" 
+                        class="btn-minimal edit me-2" 
+                        [routerLink]="['/update-tache', t.id]">
+                  Modifier
+                </button>
+                <button *ngIf="canDeleteTache()" 
+                        class="btn-minimal delete" 
+                        (click)="deleteTache(t.id!)">
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="upcomingTaches.length === 0" class="empty-state py-5 text-center">
+          <div class="empty-icon mb-3">📭</div>
+          <h5 class="text-muted">Aucun événement à venir</h5>
+        </div>
+
+      </ng-container>
+    </div>
+
+    <!-- SECTION TÂCHES EXPIRÉES -->
+    <div class="col-lg-4 mt-5 mt-lg-0 border-start ps-lg-4">
+      <div class="sticky-top" style="top: 20px;">
+        <h5 class="expired-section-title mb-4">
+          <span class="icon">⚠️</span> Tâches expirées
+        </h5>
+        
+        <!-- Afficher les tâches expirées seulement si droit de lecture -->
+        <div class="expired-list" *ngIf="authService.hasPermission('TACHE_READ')">
+          <div class="mini-card-expired mb-3" *ngFor="let t of expiredTaches">
+            <div class="card-content-mini p-3">
+              <div class="d-flex justify-content-between align-items-start">
+                <h6 class="mini-title text-truncate mb-1">{{ t.nomDuTache }}</h6>
+                <span class="mini-date-badge">{{ t.dateTache | date:'dd/MM' }}</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 mt-2">
+                <div class="mini-avatar">{{ t.utilisateur?.nom?.charAt(0) }}</div>
+                <small class="text-muted">{{ t.typeTache }} • {{ t.periodeTache }}h</small>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="expiredTaches.length === 0" class="text-center py-4">
+            <small class="text-muted fst-italic">Historique vide</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

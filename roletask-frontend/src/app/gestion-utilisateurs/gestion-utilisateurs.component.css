@@ -1,0 +1,90 @@
+/* Style global et arrière-plan */
+body {
+  background-color: #f4f7f9;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.header-section h2 {
+  font-size: 1.75rem;
+  letter-spacing: -0.5px;
+}
+
+/* Barre de recherche et Cartes */
+.card {
+  border-radius: 12px;
+}
+
+.search-wrapper {
+  width: 350px;
+}
+
+.input-group-text {
+  color: #adb5bd;
+}
+
+/* Style de la table */
+.table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6c757d;
+  padding: 16px;
+  border-bottom-width: 1px;
+}
+
+.user-row {
+  border-bottom: 1px solid #f0f2f5;
+  transition: background-color 0.2s ease;
+}
+
+.user-row:hover {
+  background-color: #f8fbff !important;
+}
+
+/* Avatar (si pas d'image) */
+.avatar-circle {
+  width: 35px;
+  height: 35px;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Badges personnalisés (Style de l'image) */
+.badge-custom {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+
+.role-admin { background-color: #fee2e2; color: #dc2626; }    /* Rouge pâle */
+.role-manager { background-color: #fef3c7; color: #d97706; }  /* Ambre pâle */
+.role-employee { background-color: #dcfce7; color: #16a34a; } /* Vert pâle */
+
+/* Boutons d'action minimalistes */
+.btn-action {
+  border: none;
+  background: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  font-size: 16px;
+}
+
+.btn-action.edit:hover { background-color: #fff4e5; }
+.btn-action.delete:hover { background-color: #ffe5e5; }
+
+/* Bouton principal */
+.btn-primary {
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+}

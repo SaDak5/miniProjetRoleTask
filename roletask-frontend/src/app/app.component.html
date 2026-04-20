@@ -1,0 +1,112 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" routerLink="/roles">Gestion des Utilisateurs</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- MENU GAUCHE -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="estConnecte">
+
+        <!-- Home -->
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/home">Home</a>
+        </li>
+
+        <!-- ROLE - Visible seulement si permission ROLE_READ -->
+        <li class="nav-item dropdown" *ngIf="authService.hasPermission('ROLE_READ')">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            Role
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="authService.hasPermission('ROLE_CREATE')">
+              <a class="dropdown-item" routerLink="/add-role">Ajouter role</a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/roles">Lister roles</a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- PERMISSION - Visible seulement si PERMISSION_READ -->
+        <li class="nav-item dropdown" *ngIf="authService.hasPermission('PERMISSION_READ')">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            Permission
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="authService.hasPermission('PERMISSION_CREATE')">
+              <a class="dropdown-item" routerLink="/add-permission">Ajouter Permission</a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/permissions">Lister Permissions</a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- TACHE - Visible seulement si TACHE_READ -->
+        <li class="nav-item dropdown" *ngIf="authService.hasPermission('TACHE_READ')">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            Tache
+          </a>
+          <ul class="dropdown-menu">
+            <li *ngIf="authService.hasPermission('TACHE_CREATE')">
+              <a class="dropdown-item" routerLink="/add-tache">Ajouter tache</a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/taches">Lister Taches</a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- UTILISATEURS - Visible seulement si UTILISATEUR_READ -->
+        <li class="nav-item" *ngIf="authService.hasPermission('UTILISATEUR_READ')">
+          <a class="nav-link" routerLink="/utilisateurs">Utilisateurs</a>
+        </li>
+
+        <!-- HISTORIQUES - Visible seulement si HISTORIQUE_READ -->
+        <li class="nav-item" *ngIf="authService.hasPermission('HISTORIQUE_READ')">
+          <a class="nav-link" routerLink="/historiques">HistoriqueActions</a>
+        </li>
+
+      </ul>
+
+      <!-- ✅ MENU DROITE - VERSION SANS DROPDOWN (100% fiable) -->
+      <ul class="navbar-nav ms-auto m-2" *ngIf="estConnecte">
+        <li class="nav-item">
+          <span class="nav-link">
+            👤 {{ prenomUtilisateur }} {{ nomUtilisateur }}
+            <span *ngIf="authService.isAdmin()" class="badge bg-danger ms-1">Admin</span>
+            <span *ngIf="authService.isManager()" class="badge bg-warning ms-1">Manager</span>
+            <span *ngIf="authService.isEmployee()" class="badge bg-success ms-1">Employé</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" style="cursor:pointer" (click)="logout()">
+            🚪 Déconnexion
+          </a>
+        </li>
+      </ul>
+
+      <!-- MENU DROITE - NON CONNECTÉ -->
+      <ul class="navbar-nav ms-auto m-2" *ngIf="!estConnecte">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">📋 Historique des actions</h2>
+
+  <!-- ✅ Message si accès non autorisé -->
+  <div *ngIf="!authService.hasPermission('HISTORIQUE_READ')" class="alert alert-danger text-center">
+    <h4>⛔ Accès non autorisé</h4>
+    <p>Vous n'avez pas les droits pour consulter l'historique des actions.</p>
+    <a routerLink="/dashboard" class="btn btn-primary">Retour à l'accueil</a>
+  </div>
+
+  <!-- ✅ Afficher seulement si l'utilisateur a les droits -->
+  <ng-container *ngIf="authService.hasPermission('HISTORIQUE_READ')">
+    
+    <div *ngIf="historiques.length === 0" class="text-center text-muted mt-5">
+      Aucune action enregistrée.
+    </div>
+
+    <div class="card shadow-sm mb-3" *ngFor="let h of historiques">
+      <div class="card-body d-flex justify-content-between align-items-center">
+
+        <!-- GAUCHE -->
+        <div>
+          <h6 class="mb-1">{{ h.action }}</h6>
+          <small class="text-muted">
+            {{ h.date | date:'dd/MM/yyyy HH:mm:ss' }}
+          </small>
+        </div>
+
+        <!-- DROITE -->
+        <div class="text-end">
+          <div class="mb-1">
+            <strong>
+              {{ h.utilisateur?.prenom }} {{ h.utilisateur?.nom }}
+            </strong>
+            <small class="text-muted d-block">
+              {{ h.utilisateur?.email }}
+            </small>
+          </div>
+
+          <span
+            class="badge"
+            [ngClass]="{
+              'bg-success':          getType(h.action) === 'create',
+              'bg-warning text-dark': getType(h.action) === 'update',
+              'bg-danger':           getType(h.action) === 'delete',
+              'bg-secondary':        getType(h.action) === 'other'
+            }">
+            {{ getTypeLabel(h.action) }}
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+  </ng-container>
+</div>

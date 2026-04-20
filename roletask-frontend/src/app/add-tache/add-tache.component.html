@@ -1,0 +1,102 @@
+<div class="container mt-4">
+  <h2>Ajouter une Tâche</h2>
+
+  <!-- Message si accès non autorisé -->
+  <div *ngIf="!authService.hasPermission('TACHE_CREATE')" class="alert alert-danger text-center">
+    <h4>⛔ Accès non autorisé</h4>
+    <p>Vous n'avez pas les droits pour créer une tâche.</p>
+    <a routerLink="/taches" class="btn btn-primary">Retour à la liste des tâches</a>
+  </div>
+
+  <!-- Afficher le formulaire seulement si permission -->
+  <ng-container *ngIf="authService.hasPermission('TACHE_CREATE')">
+    
+    <div class="alert alert-danger" *ngIf="erreur">{{ erreur }}</div>
+    <div class="alert alert-success" *ngIf="succes">{{ succes }}</div>
+
+    <!-- utilisateur assigné automatiquement -->
+    <div class="alert alert-info py-2 mb-3" *ngIf="tache.utilisateur">
+      <small>
+        Assignée à :
+        <strong>{{ tache.utilisateur?.prenom }} {{ tache.utilisateur?.nom }}</strong>
+        ({{ tache.utilisateur?.email }})
+      </small>
+    </div>
+
+    <div class="card p-4">
+
+      <div class="mb-3">
+        <label class="form-label">Nom de la tâche *</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="tache.nomDuTache"
+          name="nom"
+          placeholder="Ex: Réunion hebdomadaire"
+        />
+      </div>
+
+      <!-- ✅ Type de tâche avec option "AUTRE" -->
+      <div class="mb-3">
+        <label class="form-label">Type de tâche *</label>
+        <select class="form-select" [(ngModel)]="tache.typeTache" name="typeTache" (change)="onTypeChange()">
+          <option *ngFor="let type of typesTache" [value]="type">
+            {{ type === 'AUTRE' ? 'Autre...' : type }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ✅ Champ "AUTRE" qui apparaît dynamiquement -->
+      <div class="mb-3" *ngIf="showAutreInput">
+        <label class="form-label">Précisez le type de tâche *</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="autreTypeValue"
+          placeholder="Ex: FORMATION, MAINTENANCE, LIVRAISON..."
+          name="autreType"
+        />
+        <small class="text-muted">Saisissez le type de tâche personnalisé</small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Date *</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="tache.dateTache"
+          name="date"
+          [min]="today"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Durée (heures) *</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="tache.periodeTache"
+          name="periode"
+          min="1"
+          placeholder="Ex: 2"
+        />
+      </div>
+
+      <div class="d-flex gap-2 mt-2">
+        <button
+          class="btn btn-success"
+          (click)="sauvegarder()"
+          [disabled]="chargement">
+          <span *ngIf="chargement" class="spinner-border spinner-border-sm me-2"></span>
+          {{ chargement ? 'Ajout...' : '✔ Ajouter' }}
+        </button>
+
+        <button class="btn btn-secondary" (click)="annuler()">
+          ✖ Annuler
+        </button>
+      </div>
+
+    </div>
+
+  </ng-container>
+</div>

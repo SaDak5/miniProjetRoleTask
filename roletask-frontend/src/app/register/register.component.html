@@ -1,0 +1,58 @@
+<div class="login-container">
+
+  <div class="login-card">
+
+    <!-- Avatar -->
+    <div class="avatar">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar">
+    </div>
+
+    <h3 class="title">Créer un compte</h3>
+
+    <div *ngIf="erreur" class="alert alert-danger">{{ erreur }}</div>
+    <div *ngIf="succes" class="alert alert-success">{{ succes }}</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" [(ngModel)]="nom" placeholder="Nom">
+      </div>
+
+      <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" [(ngModel)]="prenom" placeholder="Prénom">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" placeholder="Email">
+    </div>
+
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <input type="password" [(ngModel)]="motDePasse" placeholder="Mot de passe">
+    </div>
+
+    <div class="form-group">
+      <label>Téléphone</label>
+      <input type="text" [(ngModel)]="numTelephone" placeholder="+216">
+    </div>
+
+    <div class="info-role">
+      Votre compte sera créé avec le rôle <strong>EMPLOYEE</strong>
+    </div>
+
+    <button (click)="register()" [disabled]="chargement">
+      <span *ngIf="chargement" class="loader"></span>
+      {{ chargement ? 'Création...' : 'Créer le compte' }}
+    </button>
+
+    <p class="register">
+      Déjà un compte ?
+      <a routerLink="/login">Se connecter</a>
+    </p>
+
+  </div>
+
+</div>

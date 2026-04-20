@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <h2>✏️ Modifier un utilisateur</h2>
+
+  <!-- ✅ Message si accès non autorisé -->
+  <div *ngIf="!authService.hasPermission('UTILISATEUR_UPDATE')" class="alert alert-danger text-center">
+    <h4>⛔ Accès non autorisé</h4>
+    <p>Vous n'avez pas les droits pour modifier un utilisateur.</p>
+    <a routerLink="/utilisateurs" class="btn btn-primary">Retour à la liste des utilisateurs</a>
+  </div>
+
+  <!-- ✅ Afficher le formulaire seulement si permission -->
+  <ng-container *ngIf="authService.hasPermission('UTILISATEUR_UPDATE')">
+    
+    <div *ngIf="erreur" class="alert alert-danger">{{ erreur }}</div>
+    <div *ngIf="succes" class="alert alert-success">{{ succes }}</div>
+
+    <div *ngIf="!utilisateur" class="text-center mt-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2">Chargement...</p>
+    </div>
+
+    <div *ngIf="utilisateur" class="card shadow p-4">
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nom *</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="utilisateur.nom"
+            placeholder="Nom"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Prénom *</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="utilisateur.prenom"
+            placeholder="Prénom"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email *</label>
+        <input
+          type="email"
+          class="form-control"
+          [(ngModel)]="utilisateur.email"
+          placeholder="Email"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">
+          Mot de passe
+          <small class="text-muted">
+            (laisser vide pour ne pas modifier)
+          </small>
+        </label>
+        <input
+          type="password"
+          class="form-control"
+          [(ngModel)]="utilisateur.motDePasse"
+          placeholder="••••••••"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Téléphone</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="utilisateur.numTelephone"
+          placeholder="+216"
+        />
+      </div>
+
+      <!-- ✅ Sélection du rôle : visible seulement si permission ROLE_READ -->
+      <div class="mb-3" *ngIf="authService.hasPermission('ROLE_READ')">
+        <label class="form-label">Rôle</label>
+        <select class="form-select" [(ngModel)]="utilisateur.role">
+          <option [ngValue]="null">-- Aucun rôle --</option>
+          <option *ngFor="let r of roles" [ngValue]="r">
+            {{ r.nom }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ✅ Message si pas de permission pour voir les rôles -->
+      <div *ngIf="!authService.hasPermission('ROLE_READ')" class="alert alert-secondary py-2 mb-3">
+        <small>ℹ️ Vous ne pouvez pas modifier le rôle de l'utilisateur.</small>
+        <div *ngIf="utilisateur.role" class="mt-1">
+          <strong>Rôle actuel :</strong> {{ utilisateur.role.nom }}
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-3">
+        <button
+          class="btn btn-success"
+          (click)="confirmer()"
+          [disabled]="chargement">
+          <span *ngIf="chargement"
+                class="spinner-border spinner-border-sm me-2">
+          </span>
+          {{ chargement ? 'Enregistrement...' : '✔ Confirmer' }}
+        </button>
+        <button class="btn btn-secondary" (click)="annuler()">
+          ✖ Annuler
+        </button>
+      </div>
+
+    </div>
+
+  </ng-container>
+</div>

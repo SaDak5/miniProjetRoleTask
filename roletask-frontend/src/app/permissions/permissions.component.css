@@ -1,0 +1,88 @@
+/* Fond général */
+body {
+  background-color: #f4f7f9;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.header-section h2 {
+  font-size: 1.75rem;
+}
+
+/* Table */
+.table thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #6c757d;
+  padding: 16px;
+}
+
+.permission-row {
+  border-bottom: 1px solid #f0f2f5;
+  transition: background 0.2s;
+}
+
+.permission-row:hover {
+  background-color: #f8fbff;
+}
+
+/* Badge simple */
+.badge-permission {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  background-color: #e9ecef;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Boutons actions */
+.btn-action {
+  border: none;
+  background: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.btn-action.edit:hover {
+  background-color: #fff4e5;
+}
+
+.btn-action.delete:hover {
+  background-color: #ffe5e5;
+}
+
+/* Console simple */
+.console-box {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+}
+
+.console-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 14px;
+  background-color: #f8f9fa;
+}
+
+.console-body {
+  padding: 15px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.console-body pre {
+  font-size: 13px;
+  color: #212529;
+  margin: 0;
+}
+
+.close-btn {
+  border: none;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+}

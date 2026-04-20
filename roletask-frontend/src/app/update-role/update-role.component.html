@@ -1,0 +1,94 @@
+<div class="container mt-4">
+  <h2>Modifier un rôle</h2>
+
+  <!-- ✅ Message si accès non autorisé -->
+  <div *ngIf="!authService.hasPermission('ROLE_UPDATE')" class="alert alert-danger text-center">
+    <h4>⛔ Accès non autorisé</h4>
+    <p>Vous n'avez pas les droits pour modifier un rôle.</p>
+    <a routerLink="/roles" class="btn btn-primary">Retour à la liste des rôles</a>
+  </div>
+
+  <!-- ✅ Afficher le formulaire seulement si permission -->
+  <ng-container *ngIf="authService.hasPermission('ROLE_UPDATE')">
+    
+    <div *ngIf="erreur" class="alert alert-danger">{{ erreur }}</div>
+    <div *ngIf="succes" class="alert alert-success">{{ succes }}</div>
+
+    <div *ngIf="!role" class="text-center mt-5">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-2">Chargement du rôle...</p>
+    </div>
+
+    <div *ngIf="role" class="card p-4">
+
+      <div class="mb-3">
+        <label class="form-label">Nom du rôle *</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="role.nom"
+          placeholder="Ex: ADMIN"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="role.description"
+          placeholder="Description du rôle"
+        />
+      </div>
+
+      <!-- ✅ Section Permissions : visible seulement si PERMISSION_READ -->
+      <div class="mb-3" *ngIf="authService.hasPermission('PERMISSION_READ')">
+        <label class="form-label">Permissions</label>
+        
+        <!-- ✅ Message si pas de permission pour assigner des permissions -->
+        <div *ngIf="!canAssignPermissions()" class="alert alert-info py-2 mb-2">
+          <small>⚠️ Vous ne pouvez pas modifier les permissions de ce rôle.</small>
+        </div>
+        
+        <div *ngFor="let p of toutesPermissions" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [id]="'perm-' + p.id"
+            [checked]="isSelected(p.id!)"
+            (change)="togglePermission(p.id!)"
+            [disabled]="!canAssignPermissions()"
+          />
+          <label class="form-check-label" [for]="'perm-' + p.id">
+            {{ p.nom }} <small class="text-muted">— {{ p.description }}</small>
+          </label>
+        </div>
+        
+        <div *ngIf="toutesPermissions.length === 0" class="text-muted">
+          <small>Aucune permission disponible.</small>
+        </div>
+      </div>
+
+      <!-- ✅ Message si pas de permission pour voir les permissions -->
+      <div *ngIf="!authService.hasPermission('PERMISSION_READ')" class="alert alert-secondary py-2 mb-3">
+        <small>ℹ️ Vous ne pouvez pas voir ni modifier les permissions de ce rôle.</small>
+      </div>
+
+      <div class="d-flex gap-2 mt-3">
+        <button
+          class="btn btn-success"
+          (click)="confirmer()"
+          [disabled]="chargement">
+          <span *ngIf="chargement" class="spinner-border spinner-border-sm me-2"></span>
+          {{ chargement ? 'Enregistrement...' : '✔ Confirmer la modification' }}
+        </button>
+
+        <button class="btn btn-secondary" (click)="annuler()">
+          ✖ Annuler
+        </button>
+      </div>
+
+    </div>
+
+  </ng-container>
+</div>
