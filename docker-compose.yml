@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  # Base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: roletask-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: roletask_db
+      MYSQL_USER: roletask_user
+      MYSQL_PASSWORD: roletask_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - roletask-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Backend Spring Boot
+  backend:
+    build:
+      context: ./RoleTask
+      dockerfile: Dockerfile
+    container_name: roletask-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/roletask_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: roletask_user
+      SPRING_DATASOURCE_PASSWORD: roletask_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 8094
+    ports:
+      - "8094:8094"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - roletask-network
+    restart: unless-stopped
+
+  # Frontend Angular
+  frontend:
+    build:
+      context: ./roletask-frontend
+      dockerfile: Dockerfile
+    container_name: roletask-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - roletask-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  roletask-network:
+    driver: bridge
