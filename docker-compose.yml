@@ -11,7 +11,7 @@ services:
       MYSQL_USER: roletask_user
       MYSQL_PASSWORD: roletask_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -23,6 +23,7 @@ services:
 
   # Backend Spring Boot
   backend:
+    image: roletask-backend:latest
     build:
       context: ./RoleTask
       dockerfile: Dockerfile
@@ -44,12 +45,13 @@ services:
 
   # Frontend Angular
   frontend:
+    image: roletask-frontend:latest
     build:
       context: ./roletask-frontend
       dockerfile: Dockerfile
     container_name: roletask-frontend
     ports:
-      - "80:80"
+      - "9090:80"
     depends_on:
       - backend
     networks:

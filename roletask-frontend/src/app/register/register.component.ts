@@ -3,6 +3,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ApiConfigService } from '../service/api-config.service';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,8 @@ export class RegisterComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private apiConfigService: ApiConfigService
   ) {}
 
   register() {
@@ -47,7 +49,7 @@ export class RegisterComponent {
       // ← pas de role envoyé, le backend gère EMPLOYEE par défaut
     };
 
-    this.http.post<any>('http://localhost:8094/api/auth/register', body).subscribe({
+    this.http.post<any>(`${this.apiConfigService.getApiBaseUrl()}/auth/register`, body).subscribe({
       next: () => {
         this.succes = 'Compte créé avec succès ! Redirection...';
         this.chargement = false;

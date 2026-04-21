@@ -7,6 +7,15 @@
 3. [Déploiement sur le Cloud](#déploiement-cloud)
 4. [Commandes utiles](#commandes-utiles)
 5. [Dépannage](#dépannage)
+6. [Déploiement Kubernetes](#déploiement-kubernetes)
+
+---
+
+## ☸️ Déploiement Kubernetes
+
+Le manifeste complet et les commandes d'application sont maintenant documentés dans [KUBERNETES_DEPLOYMENT.md](KUBERNETES_DEPLOYMENT.md).
+
+Le point important à retenir est que le frontend utilise `/api` en production, ce qui permet un routage propre via Ingress ou Nginx sans URL codée en dur.
 
 ---
 

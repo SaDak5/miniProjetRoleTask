@@ -1,19 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, BehaviorSubject } from 'rxjs';
+import { ApiConfigService } from './api-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8094/api/auth';
+  private readonly apiUrl: string;
 
 
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   isLoggedIn$ = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private apiConfigService: ApiConfigService
+  ) {
+    this.apiUrl = `${this.apiConfigService.getApiBaseUrl()}/auth`;
+  }
 
   login(email: string, motDePasse: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, motDePasse }).pipe(

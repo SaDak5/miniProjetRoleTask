@@ -14,7 +14,12 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200")
+                        .allowedOrigins(
+                            "http://localhost:4200",    // ng serve port
+                            "http://localhost:9090",    // docker-compose frontend
+                            "http://localhost:8080",    // alternate docker port
+                            "http://localhost"          // production
+                        )
                         .allowedMethods("*")
                         .allowedHeaders("*");
             }

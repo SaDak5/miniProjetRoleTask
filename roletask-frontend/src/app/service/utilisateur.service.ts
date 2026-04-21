@@ -6,19 +6,30 @@ import { Permission } from '../models/permission.model';
 import { HistoriqueAction } from '../models/historique-action.model';
 import { Tache } from '../models/tache.model';
 import { Utilisateur } from '../models/utilisateur.model';
+import { ApiConfigService } from './api-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilisateurService {
 
-  private apiUtilisateurs = 'http://localhost:8094/api/utilisateurs';
-  private apiRoles       = 'http://localhost:8094/api/roles';
-  private apiPermissions = 'http://localhost:8094/api/permissions';
-  private apiHistoriques = 'http://localhost:8094/api/historiques';
-  private apiTaches      = 'http://localhost:8094/api/taches';
+  private readonly apiUtilisateurs: string;
+  private readonly apiRoles: string;
+  private readonly apiPermissions: string;
+  private readonly apiHistoriques: string;
+  private readonly apiTaches: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private apiConfigService: ApiConfigService
+  ) {
+    const apiBaseUrl = this.apiConfigService.getApiBaseUrl();
+    this.apiUtilisateurs = `${apiBaseUrl}/utilisateurs`;
+    this.apiRoles = `${apiBaseUrl}/roles`;
+    this.apiPermissions = `${apiBaseUrl}/permissions`;
+    this.apiHistoriques = `${apiBaseUrl}/historiques`;
+    this.apiTaches = `${apiBaseUrl}/taches`;
+  }
 
   // ======================================================
   // UTILISATEURS
