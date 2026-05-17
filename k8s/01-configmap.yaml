@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: roletask-config
+  namespace: roletask
+data:
+  MYSQL_DATABASE: roletask_db
+  MYSQL_HOST: mysql
+  MYSQL_PORT: "3306"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  SERVER_PORT: "8094"

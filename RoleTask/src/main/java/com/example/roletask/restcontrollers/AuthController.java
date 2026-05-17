@@ -1,6 +1,7 @@
 package com.example.roletask.restcontrollers;
 
 import com.example.roletask.entities.Utilisateur;
+import com.example.roletask.entities.Role;
 import com.example.roletask.repos.RoleRepository;
 import com.example.roletask.repos.UtilisateurRepository;
 import com.example.roletask.security.SecParams;
@@ -112,10 +113,23 @@ public class AuthController {
                 return ResponseEntity.badRequest().body(error);
             }
 
-            // affecter EMPLOYEE par défaut si aucun rôle fourni
-            if (utilisateur.getRole() == null) {
-                roleRepository.findByNom("EMPLOYEE").ifPresent(utilisateur::setRole);
+            // Force a valid persisted role. If missing/invalid, use EMPLOYEE by default.
+            Role resolvedRole = null;
+            if (utilisateur.getRole() != null && utilisateur.getRole().getNom() != null) {
+                resolvedRole = roleRepository.findByNom(utilisateur.getRole().getNom()).orElse(null);
             }
+
+            if (resolvedRole == null) {
+                resolvedRole = roleRepository.findByNom("EMPLOYEE").orElse(null);
+            }
+
+            if (resolvedRole == null) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "Rôle EMPLOYEE introuvable. Initialisez les rôles avant l'inscription.");
+                return ResponseEntity.badRequest().body(error);
+            }
+
+            utilisateur.setRole(resolvedRole);
 
             utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
 

@@ -31,12 +31,11 @@ public class MyUserDetailsService implements UserDetailsService {
 
         if (utilisateur.getRole() != null) {
 
-            // ajouter le rôle : ex ROLE_ADMIN, ROLE_MANAGER, ROLE_EMPLOYEE
             authorities.add(new SimpleGrantedAuthority(
                 "ROLE_" + utilisateur.getRole().getNom()
             ));
 
-            // ajouter chaque permission du rôle : ex TACHE_READ, ROLE_CREATE ...
+         
             if (utilisateur.getRole().getPermissions() != null) {
                 for (Permission permission : utilisateur.getRole().getPermissions()) {
                     authorities.add(new SimpleGrantedAuthority(

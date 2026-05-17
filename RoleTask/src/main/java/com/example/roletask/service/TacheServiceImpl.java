@@ -55,7 +55,7 @@ public class TacheServiceImpl implements TacheService {
         existante.setDateTache(tache.getDateTache());
         existante.setPeriodeTache(tache.getPeriodeTache());
 
-        // ✅ On ne modifie pas l'utilisateur assigné (optionnel)
+        // On ne modifie pas l'utilisateur assigné (optionnel)
         // if (tache.getUtilisateur() != null && tache.getUtilisateur().getId() != null) {
         //     Utilisateur utilisateur = utilisateurRepository
         //         .findById(tache.getUtilisateur().getId())
@@ -95,7 +95,7 @@ public class TacheServiceImpl implements TacheService {
         return tacheRepository.findAll();
     }
 
-    // ✅ MODIFIÉ : Recherche par String
+    
     @Override
     public List<Tache> trouverParType(String typeTache) {
         return tacheRepository.findByTypeTache(typeTache);

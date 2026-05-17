@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface TacheRepository extends JpaRepository<Tache, Long> {
     
-    // ✅ MODIFIÉ : Utilise String au lieu de TypeTache
+   
     List<Tache> findByTypeTache(String typeTache);
     
     List<Tache> findByUtilisateurId(Long utilisateurId);

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Component  // ✅ AJOUT — manquait ici
+@Component  
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
@@ -29,7 +29,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // URLs publiques
+        //les url publiquess
         if (path.equals("/api/auth/login") ||
             path.equals("/api/auth/register") ||
             path.startsWith("/swagger-ui") ||
@@ -41,7 +41,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Laisser passer OPTIONS (CORS preflight)
+    
         if (request.getMethod().equals("OPTIONS")) {
             response.setStatus(HttpServletResponse.SC_OK);
             chain.doFilter(request, response);
@@ -50,7 +50,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         String header = request.getHeader(SecParams.HEADER_STRING);
 
-        // Pas de token → 401
+       
         if (header == null || !header.startsWith(SecParams.TOKEN_PREFIX)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");

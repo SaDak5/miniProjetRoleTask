@@ -51,7 +51,7 @@ services:
       dockerfile: Dockerfile
     container_name: roletask-frontend
     ports:
-      - "9090:80"
+      - "30082:80"
     depends_on:
       - backend
     networks:

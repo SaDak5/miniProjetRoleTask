@@ -10,6 +10,5 @@ public interface HistoriqueActionService {
     List<HistoriqueAction> trouverParUtilisateur(Long utilisateurId);
     HistoriqueAction enregistrer(HistoriqueAction action);
     void supprimer(Long id);
-    // mthode utilitaire pour enregistrer depuis nimporte quel service
     void logAction(String action, String email);
 }

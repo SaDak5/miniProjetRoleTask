@@ -35,7 +35,7 @@ public class RoleServiceImpl implements RoleService {
             throw new RuntimeException("Un rôle avec ce nom existe déjà : " + role.getNom());
         }
 
-        // ✅ Gérer les permissions (existantes OU nouvelles)
+        
         if (role.getPermissions() != null && !role.getPermissions().isEmpty()) {
             List<Permission> permissionsFinales = new ArrayList<>();
             for (Permission p : role.getPermissions()) {
@@ -46,21 +46,21 @@ public class RoleServiceImpl implements RoleService {
                             "Permission non trouvée avec l'id : " + p.getId()));
                     permissionsFinales.add(permTrouvee);
                 } else if (p.getNom() != null && !p.getNom().isEmpty()) {
-                    // ✅ Nouvelle permission - la créer d'abord
+                    
                     Permission nouvellePermission = Permission.builder()
                         .nom(p.getNom())
                         .description(p.getDescription())
                         .build();
                     Permission saved = permissionRepository.save(nouvellePermission);
                     permissionsFinales.add(saved);
-                    System.out.println("✅ Nouvelle permission créée: " + saved.getNom());
+                    System.out.println("Nouvelle permission créée: " + saved.getNom());
                 }
             }
             role.setPermissions(permissionsFinales);
         }
 
         Role saved = roleRepository.save(role);
-        System.out.println("✅ Rôle créé: " + saved.getNom() + " avec " + saved.getPermissions().size() + " permissions");
+        System.out.println(" Rôle créé: " + saved.getNom() + " avec " + saved.getPermissions().size() + " permissions");
         
         historiqueActionService.logAction(
             "Création du rôle : " + saved.getNom(),
@@ -78,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
         existant.setNom(roleModifie.getNom());
         existant.setDescription(roleModifie.getDescription());
 
-        // ✅ Gérer les permissions (existantes OU nouvelles)
+        //  Gérer les permissions (existantes OU nouvelles)
         if (roleModifie.getPermissions() != null) {
             List<Permission> permissionsFinales = new ArrayList<>();
             for (Permission p : roleModifie.getPermissions()) {

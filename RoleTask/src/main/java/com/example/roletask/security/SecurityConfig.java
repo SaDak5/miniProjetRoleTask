@@ -25,7 +25,7 @@ public class SecurityConfig {
 
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
 
-    // ✅ Injection par constructeur — fonctionne car @Component est sur le filtre
+    
     public SecurityConfig(JWTAuthorizationFilter jwtAuthorizationFilter) {
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
@@ -44,11 +44,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-            "http://localhost:4200",    // ng serve port
-            "http://localhost:9090",    // docker-compose frontend port
-            "http://localhost:8080",    // alternate docker port
-            "http://localhost"          // production
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost:*",       
+            "http://127.0.0.1:*"        
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));

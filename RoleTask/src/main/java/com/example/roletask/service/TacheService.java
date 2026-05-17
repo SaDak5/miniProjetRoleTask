@@ -18,7 +18,7 @@ public interface TacheService {
 
     List<Tache> toutesLesTaches();
 
-    // ✅ MODIFIÉ : Recherche par String (plus d'énumération)
+ 
     List<Tache> trouverParType(String typeTache);
 
     List<Tache> trouverParUtilisateur(Long utilisateurId);

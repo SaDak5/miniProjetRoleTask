@@ -62,13 +62,13 @@ public class HistoriqueActionServiceImpl implements HistoriqueActionService {
         historiqueActionRepository.save(historique);
     }
 
-    // 🔴 Récupération propre de l'utilisateur
+    //Récupération propre de l'utilisateur
     private Utilisateur getUtilisateurConnecte(String email) {
 
         if (email == null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null && auth.isAuthenticated()) {
-                email = auth.getName(); // fonctionne si username = email
+                email = auth.getName(); 
             }
         }
 

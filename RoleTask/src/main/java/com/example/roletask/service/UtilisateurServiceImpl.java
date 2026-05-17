@@ -64,7 +64,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         Utilisateur existant = utilisateurRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé : " + id));
 
-        // ✅ Vérifier unicité email uniquement si l'email change
+        /
         if (!existant.getEmail().equals(utilisateur.getEmail())
                 && utilisateurRepository.existsByEmail(utilisateur.getEmail())) {
             throw new RuntimeException("Email déjà utilisé : " + utilisateur.getEmail());
@@ -75,15 +75,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         existant.setEmail(utilisateur.getEmail());
         existant.setNumTelephone(utilisateur.getNumTelephone());
 
-        // ✅ Ne modifier le mot de passe QUE s'il est fourni, non vide,
-        //    ET qu'il n'est PAS déjà un hash bcrypt (évite le double encodage)
+      
         String mdp = utilisateur.getMotDePasse();
         if (mdp != null && !mdp.trim().isEmpty()
                 && !mdp.startsWith("$2a$") && !mdp.startsWith("$2b$")) {
             existant.setMotDePasse(passwordEncoder.encode(mdp));
         }
 
-        // ✅ Mise à jour du rôle
+      
         if (utilisateur.getRole() != null && utilisateur.getRole().getId() != null) {
             Role role = roleRepository.findById(utilisateur.getRole().getId())
                 .orElseThrow(() -> new RuntimeException(

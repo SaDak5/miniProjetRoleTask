@@ -70,7 +70,17 @@ public class DataInitializer implements CommandLineRunner {
             permissionRepository.findByNom(permName).ifPresent(allPermissions::add);
         }
 
-        // Step 3: Get or create ADMIN role with all permissions
+        // Step 3: Ensure EMPLOYEE role exists for default registration flow
+        roleRepository.findByNom("EMPLOYEE").orElseGet(() -> {
+            Role employeeRole = new Role();
+            employeeRole.setNom("EMPLOYEE");
+            employeeRole.setDescription("Default employee role");
+            employeeRole.setPermissions(new ArrayList<>());
+            return roleRepository.save(employeeRole);
+        });
+        System.out.println("✅ EMPLOYEE role created/verified");
+
+        // Step 4: Get or create ADMIN role with all permissions
         Optional<Role> existingRole = roleRepository.findByNom("ADMIN");
         Role adminRole;
         
@@ -88,26 +98,22 @@ public class DataInitializer implements CommandLineRunner {
         roleRepository.save(adminRole);
         System.out.println("✅ ADMIN role created/updated with " + allPermissions.size() + " permissions");
 
-        // Step 4: Create default admin user
+        // Step 5: Create default admin user
         Optional<Utilisateur> existingAdmin = utilisateurRepository.findByEmail("admin@roletask.com");
-        if (!existingAdmin.isPresent()) {
-            // Fetch fresh admin role
-            Role freshAdminRole = roleRepository.findByNom("ADMIN").orElseThrow();
-            
-            Utilisateur admin = new Utilisateur();
-            admin.setEmail("admin@roletask.com");
-            admin.setNom("Admin");
-            admin.setPrenom("User");
-            admin.setMotDePasse(passwordEncoder.encode("admin123456")); // Hash password
-            admin.setRole(freshAdminRole);
+        // Always keep the local admin credentials predictable so fresh Docker runs stay usable.
+        Role freshAdminRole = roleRepository.findByNom("ADMIN").orElseThrow();
 
-            utilisateurRepository.save(admin);
-            System.out.println("✅ Default admin user created successfully!");
-            System.out.println("   Email: admin@roletask.com");
-            System.out.println("   Password: admin123456");
-        } else {
-            System.out.println("✅ Admin user already exists.");
-        }
+        Utilisateur admin = existingAdmin.orElseGet(Utilisateur::new);
+        admin.setEmail("admin@roletask.com");
+        admin.setNom("Admin");
+        admin.setPrenom("User");
+        admin.setMotDePasse(passwordEncoder.encode("admin123456")); // Hash password
+        admin.setRole(freshAdminRole);
+
+        utilisateurRepository.save(admin);
+        System.out.println("✅ Default admin user created/updated successfully!");
+        System.out.println("   Email: admin@roletask.com");
+        System.out.println("   Password: admin123456");
         
         System.out.println("✅ Application data initialization complete!\n");
     }
