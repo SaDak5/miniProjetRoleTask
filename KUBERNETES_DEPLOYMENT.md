@@ -1,8 +1,8 @@
 # Déploiement Kubernetes - RoleTask
 
-⚡ **DÉMARRAGE RAPIDE** : Construis les images, mets à jour le manifeste, puis déploie.
+⚡ **DÉMARRAGE RAPIDE** : Construis les images, puis déploie avec le dossier `k8s/`.
 
-Ce dépôt contient un manifeste Kubernetes prêt à adapter dans [k8s/roletask.yaml](k8s/roletask.yaml).
+Ce dépôt contient une base Kubernetes prête à appliquer avec `kubectl apply -k k8s`.
 
 ## Architecture
 
@@ -57,19 +57,19 @@ roletask-frontend:latest →  [ton-username]/roletask-frontend:latest
 
 ## 3️⃣ Adapter le manifeste
 
-Avant de déployer, ajustez dans [k8s/roletask.yaml](k8s/roletask.yaml) :
+Avant de déployer, ajustez les fichiers du dossier [k8s/](k8s) :
 
 ```yaml
-# Ligne 133 (backend image)
+# backend image
 image: roletask-backend:latest  # ou [ton-username]/roletask-backend:latest
 
-# Ligne 198 (frontend image)  
+# frontend image  
 image: roletask-frontend:latest  # ou [ton-username]/roletask-frontend:latest
 
-# Ligne 233 (Ingress host)
+# Ingress host
 host: roletask.example.com  # ou ton vrai domain
 
-# Ligne 19-23 (secrets si tu veux changer les passwords MySQL)
+# secrets si tu veux changer les passwords MySQL
 MYSQL_PASSWORD: roletask_password
 JWT_SECRET: roletask_secret_key_2024
 ```
@@ -79,6 +79,16 @@ JWT_SECRET: roletask_secret_key_2024
 ```bash
 kubectl apply -f k8s/roletask.yaml
 ```
+
+Si tu utilises le layout actuel du dépôt, préfère :
+
+```bash
+kubectl apply -k k8s
+```
+
+Si cette commande échoue avec `failed to download openapi`, le problème vient en général du cluster ou du contexte kubectl, pas des manifests. Vérifie d’abord que le contexte actif pointe vers un cluster joignable avec `kubectl config current-context` et `kubectl get ns`.
+
+Tu peux utiliser `--validate=false` seulement comme contournement temporaire si l’API server est joignable mais que la récupération du schéma OpenAPI échoue encore.
 
 ## 5️⃣ Vérifier
 
